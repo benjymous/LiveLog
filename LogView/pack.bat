@@ -1,0 +1,1 @@
+\Users\richard.munn\nuget.exe pack
