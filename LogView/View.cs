@@ -78,7 +78,6 @@ namespace grapefruitopia.LiveLog
                 bool scroll = (listView1.Items.Count > 0) ? listView1.Items[listView1.Items.Count - 1].Bounds.IntersectsWith(listView1.ClientRectangle) : false;
 
                 listView1.Items.Add(lvi);
-                listView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
 
                 if (scroll)
                 {
@@ -114,14 +113,12 @@ namespace grapefruitopia.LiveLog
                     }
                 }
             }
-            listView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private void listView1_SizeChanged(object sender, EventArgs e)
         {
             // Make last column take up remailing available space
             listView1.Columns[2].Width = this.Width - (listView1.Columns[0].Width + listView1.Columns[1].Width) - 23;
-            //listView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private void filterChanged(object sender, EventArgs e)
