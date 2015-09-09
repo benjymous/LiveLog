@@ -12,13 +12,13 @@ using System.Windows.Forms;
 
 namespace grapefruitopia.LiveLog.Demo
 {
-    public partial class Form1 : Form
+    public partial class DemoForm : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         Random rnd = new Random();
 
-        public Form1()
+        public DemoForm()
         {
             InitializeComponent();
         }

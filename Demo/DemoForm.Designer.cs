@@ -1,6 +1,6 @@
 ﻿namespace grapefruitopia.LiveLog.Demo
 {
-    partial class Form1
+    partial class DemoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.view1 = new LiveLog.View();
+            this.view1 = new grapefruitopia.LiveLog.View();
             this.SuspendLayout();
             // 
             // timer1
@@ -39,23 +39,23 @@
             // 
             // view1
             // 
-            this.view1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.view1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.view1.Location = new System.Drawing.Point(12, 12);
             this.view1.Name = "view1";
-            this.view1.Size = new System.Drawing.Size(260, 237);
+            this.view1.Size = new System.Drawing.Size(507, 299);
             this.view1.TabIndex = 0;
             // 
-            // Form1
+            // DemoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(531, 323);
             this.Controls.Add(this.view1);
             this.DoubleBuffered = true;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "DemoForm";
+            this.Text = "LiveLog Demo Form";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.ResumeLayout(false);
 

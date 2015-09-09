@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveLog.Demo", "LiveLog.Demo.csproj", "{6F00CBC8-CC1C-4BB9-B52E-F9047A21E8BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveLog.Demo", "Demo\LiveLog.Demo.csproj", "{6F00CBC8-CC1C-4BB9-B52E-F9047A21E8BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveLog", "LogView\LiveLog.csproj", "{99E35CBC-7980-4DFE-B7A1-C36517F30D9E}"
 EndProject
