@@ -40,7 +40,7 @@ namespace grapefruitopia.LiveLog
                     return Color.Tomato;
 
                 case "ERROR":
-                    return Color.DarkSalmon;
+                    return Color.DarkOrange;
 
                 case "WARN":
                     return Color.Yellow;
