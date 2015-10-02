@@ -16,9 +16,17 @@ namespace grapefruitopia.LiveLog
 
         List<ListViewItem> Items = new List<ListViewItem>();
 
+        Dictionary<log4net.Core.Level, ListViewItem> Counts = new Dictionary<log4net.Core.Level, ListViewItem>();
+
         public View()
         {
             InitializeComponent();
+
+            AddCountItem(log4net.Core.Level.Fatal);
+            AddCountItem(log4net.Core.Level.Error);
+            AddCountItem(log4net.Core.Level.Warn);
+            AddCountItem(log4net.Core.Level.Info);
+            AddCountItem(log4net.Core.Level.Debug);
 
             _appender = new Appender();
             _appender.View = this;
@@ -46,7 +54,12 @@ namespace grapefruitopia.LiveLog
 
         internal bool IsVisible(log4net.Core.Level level)
         {
-            switch (level.DisplayName)
+            return IsVisible(level.DisplayName);
+        }
+
+        internal bool IsVisible(string level)
+        {
+            switch (level)
             {
                 case "FATAL":
                     return fatalToolStripMenuItem.Checked;
@@ -68,10 +81,30 @@ namespace grapefruitopia.LiveLog
         {
             var lvi = new ListViewItem(new string[] { loggingEvent.Level.DisplayName, loggingEvent.TimeStamp.ToLongTimeString(), loggingEvent.RenderedMessage });
 
-            lvi.SubItems[0].BackColor = GetColour(loggingEvent.Level);
+            var colour = GetColour(loggingEvent.Level);
+
+            lvi.SubItems[0].BackColor = colour;
             lvi.UseItemStyleForSubItems = false;
             lvi.Tag = loggingEvent;
-            
+
+            if (!Counts.ContainsKey(loggingEvent.Level))
+            {
+                var countLvi = new ListViewItem(loggingEvent.Level + ": 1");
+                countLvi.Tag = 1;
+                countLvi.Name = loggingEvent.Level.DisplayName;
+                countLvi.BackColor = colour;
+                countLvi.Checked = IsVisible(loggingEvent.Level);
+                Counts.Add(loggingEvent.Level, countLvi);
+            }
+            else
+            {
+                var countLvi = Counts[loggingEvent.Level];
+                int? count = countLvi.Tag as int?;
+                count++;
+                countLvi.Tag = count;
+            }
+            RefreshCounts();
+
             Items.Add(lvi);
             if (IsVisible(loggingEvent.Level))
             {
@@ -84,8 +117,30 @@ namespace grapefruitopia.LiveLog
                     lvi.EnsureVisible();
                 }
             }
+        }
 
+        private void AddCountItem(log4net.Core.Level level)
+        {
+            var countLvi = new ListViewItem(level + ": 0");
+            countLvi.Tag = 1;
+            countLvi.Name = level.DisplayName;
+            countLvi.BackColor = GetColour(level);
+            countLvi.Checked = IsVisible(level);                        
+            Counts.Add(level, countLvi);
+        }
 
+        private void RefreshCounts()
+        {
+            foreach(KeyValuePair<log4net.Core.Level, ListViewItem> kvp in Counts)
+            {
+                var lvi = kvp.Value;
+                lvi.Text = lvi.Name + ": " + (lvi.Tag as int?).ToString();
+                lvi.Checked = IsVisible(lvi.Name);             
+                if(!listView2.Items.Contains(lvi))
+                {
+                    listView2.Items.Add(lvi);
+                }
+            }
         }
 
         private void RefreshVisible()
@@ -124,12 +179,48 @@ namespace grapefruitopia.LiveLog
         private void filterChanged(object sender, EventArgs e)
         {
             RefreshVisible();
+            RefreshCounts();
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listView1.Items.Clear();
             Items.Clear();
+
+            foreach (KeyValuePair<log4net.Core.Level, ListViewItem> kvp in Counts)
+            {
+                kvp.Value.Tag = 0;
+            }
+
+            RefreshCounts();
+        }
+
+        private void listView2_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            var lvi = e.Item;
+
+            switch (lvi.Name)
+            {
+                case "FATAL":
+                    fatalToolStripMenuItem.Checked = lvi.Checked;
+                    break;
+
+                case "ERROR":
+                    errorToolStripMenuItem.Checked = lvi.Checked;
+                    break;
+
+                case "WARN":
+                    warningToolStripMenuItem.Checked = lvi.Checked;
+                    break;
+
+                case "DEBUG":
+                    debugToolStripMenuItem.Checked = lvi.Checked;
+                    break;
+
+                case "INFO":
+                    infoToolStripMenuItem.Checked = lvi.Checked;
+                    break;
+            }
         }
     }
 }
