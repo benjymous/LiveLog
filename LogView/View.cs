@@ -122,7 +122,7 @@ namespace grapefruitopia.LiveLog
         private void AddCountItem(log4net.Core.Level level)
         {
             var countLvi = new ListViewItem(level + ": 0");
-            countLvi.Tag = 1;
+            countLvi.Tag = 0;
             countLvi.Name = level.DisplayName;
             countLvi.BackColor = GetColour(level);
             countLvi.Checked = IsVisible(level);                        
