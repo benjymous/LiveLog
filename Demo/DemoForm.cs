@@ -44,7 +44,7 @@ namespace grapefruitopia.LiveLog.Demo
                     log.Error("An error occured");
                     break;
                 case 3:
-                    log.Fatal("ABORT!  ABORT!");
+                    log.Fatal("ABORT!  ABORT!", new System.Exception("He's dead jim", new System.Exception("innerexception")));
                     break;
                 case 4:
                     log.Info("Info!");

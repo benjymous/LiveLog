@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace grapefruitopia.LiveLog
 {
@@ -77,9 +78,32 @@ namespace grapefruitopia.LiveLog
             return infoToolStripMenuItem.Checked;
         }
 
+        internal string getMessage(System.Exception exception)
+        {
+           return exception == null ? "" : String.Format(" [ Exception: {0} {1} ]", exception, GetExceptionDetails(exception));
+        }
+
+        public static string GetExceptionDetails(Exception exception)
+        {
+            PropertyInfo[] properties = exception.GetType().GetProperties();
+            List<string> fields = new List<string>();
+            foreach (PropertyInfo property in properties)
+            {
+                object value = property.GetValue(exception, null);
+                fields.Add(String.Format(
+                                 "({0} = {1})",
+                                 property.Name,
+                                 value != null ? value.ToString() : String.Empty
+                ));
+            }
+            return String.Join(", ", fields.ToArray());
+        }
+
         internal void Append(log4net.Core.LoggingEvent loggingEvent)
         {
-            var lvi = new ListViewItem(new string[] { loggingEvent.Level.DisplayName, loggingEvent.TimeStamp.ToLongTimeString(), loggingEvent.RenderedMessage });
+            string message = loggingEvent.RenderedMessage + getMessage(loggingEvent.ExceptionObject);
+
+            var lvi = new ListViewItem(new string[] { loggingEvent.Level.DisplayName, loggingEvent.TimeStamp.ToLongTimeString(), message });
 
             var colour = GetColour(loggingEvent.Level);
 
