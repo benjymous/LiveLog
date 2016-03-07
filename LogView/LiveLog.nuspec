@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>grapefruitopia.livelog</id>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
     <title>Live Log</title>
     <authors>Richard Munn</authors>
     <owners>Richard Munn</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A WinForms component that automatically shows a live stream of the application's log4net events</description>
-    <copyright>Copyright 2015</copyright>
+    <copyright>Copyright 2016</copyright>
     <tags>winforms log4net</tags>
   </metadata>
 </package>

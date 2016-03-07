@@ -27,6 +27,8 @@ namespace grapefruitopia.LiveLog.Demo
         {
             timer1.Enabled = true;
 
+            log.Info("Hello, welcome to livelog!");
+
             log.Debug("This is a debug message");
             log.Info("Info");
             log.Error("Error");

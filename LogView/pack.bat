@@ -1,1 +1,1 @@
-\Users\richard.munn\nuget.exe pack
+\Users\richard.munn\nuget.exe pack  -Prop Configuration=Release

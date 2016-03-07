@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace grapefruitopia.LiveLog
 {
@@ -18,6 +13,8 @@ namespace grapefruitopia.LiveLog
         List<ListViewItem> Items = new List<ListViewItem>();
 
         Dictionary<log4net.Core.Level, ListViewItem> Counts = new Dictionary<log4net.Core.Level, ListViewItem>();
+
+        Queue<log4net.Core.LoggingEvent> ItemQueue = new Queue<log4net.Core.LoggingEvent>();
 
         public View()
         {
@@ -31,6 +28,18 @@ namespace grapefruitopia.LiveLog
 
             _appender = new Appender();
             _appender.View = this;
+        }
+
+        public int RefreshInterval
+        {
+            get
+            {
+                return timer.Interval;
+            }
+            set
+            {
+                timer.Interval = value;
+            }
         }
 
         internal Color GetColour(log4net.Core.Level level)
@@ -100,6 +109,15 @@ namespace grapefruitopia.LiveLog
         }
 
         internal void Append(log4net.Core.LoggingEvent loggingEvent)
+        {
+            ItemQueue.Enqueue(loggingEvent);
+            if(!timer.Enabled)
+            {
+                timer.Start();
+            }
+        }
+
+        internal void ProcessEvent(log4net.Core.LoggingEvent loggingEvent)
         {
             string message = loggingEvent.RenderedMessage + getMessage(loggingEvent.ExceptionObject);
 
@@ -245,6 +263,17 @@ namespace grapefruitopia.LiveLog
                     infoToolStripMenuItem.Checked = lvi.Checked;
                     break;
             }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            this.SuspendLayout();            
+            foreach(var item in ItemQueue)
+            {
+                ProcessEvent(item);
+            }
+            ItemQueue.Clear();
+            this.ResumeLayout();
         }
     }
 }
